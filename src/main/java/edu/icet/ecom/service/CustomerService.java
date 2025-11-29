@@ -24,5 +24,14 @@ public class CustomerService {
         return "Customer Added Successfully";
     }
 
+    public CustomerDTO searchCustomer(String id) {
+        Customer customer = customerRepository.findById(id).orElse(null);
 
+        return new CustomerDTO(
+                customer.getCustomerId(),
+                customer.getName(),
+                customer.getAddress(),
+                customer.getContact()
+        );
+    }
 }
