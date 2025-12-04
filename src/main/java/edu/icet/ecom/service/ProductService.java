@@ -6,7 +6,6 @@ import edu.icet.ecom.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -70,5 +69,9 @@ public class ProductService {
         }
 
         return "Delete Product Successful";
+    }
+
+    public List<Product> getAll(){
+        return productRepository.findAll();
     }
 }

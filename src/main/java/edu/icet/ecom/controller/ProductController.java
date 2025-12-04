@@ -1,11 +1,12 @@
 package edu.icet.ecom.controller;
 
 import edu.icet.ecom.model.dto.ProductDTO;
+import edu.icet.ecom.model.entity.Product;
 import edu.icet.ecom.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.sql.Update;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.service.annotation.DeleteExchange;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -32,5 +33,10 @@ public class ProductController {
     @DeleteMapping("/deleteProduct={id}")
     public String deleteProduct(@PathVariable("id")String id){
         return productService.deleteProduct(id);
+    }
+
+    @GetMapping("/getAll")
+    public List<Product> getAll(){
+        return productService.getAll();
     }
 }
