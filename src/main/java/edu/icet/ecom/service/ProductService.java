@@ -49,4 +49,16 @@ public class ProductService {
         );
     }
 
+    public String updateProduct(ProductDTO productDTO, String id) {
+        Product product = productRepository.findById(id).orElse(null);
+
+        product.setProductId(id);
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+
+        productRepository.save(product);
+
+        return "Product Updated";
+
+    }
 }
