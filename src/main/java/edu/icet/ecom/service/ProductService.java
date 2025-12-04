@@ -61,4 +61,14 @@ public class ProductService {
         return "Product Updated";
 
     }
+
+    public String deleteProduct(String id) {
+        productRepository.deleteById(id);
+
+        if (productRepository.findById(id).isPresent()) {
+            return "deleting failed";
+        }
+
+        return "Delete Product Successful";
+    }
 }

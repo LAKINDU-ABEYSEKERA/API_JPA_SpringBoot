@@ -5,6 +5,7 @@ import edu.icet.ecom.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.sql.Update;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.service.annotation.DeleteExchange;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,5 +27,10 @@ public class ProductController {
     @PostMapping("updateProduct={id}")
     public String updateProduct(@RequestBody ProductDTO productDTO,@PathVariable("id")String id){
         return productService.updateProduct(productDTO,id);
+    }
+
+    @DeleteMapping("/deleteProduct={id}")
+    public String deleteProduct(@PathVariable("id")String id){
+        return productService.deleteProduct(id);
     }
 }
