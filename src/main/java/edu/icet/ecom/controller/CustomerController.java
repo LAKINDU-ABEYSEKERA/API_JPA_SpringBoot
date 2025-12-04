@@ -40,7 +40,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/deleteCustomer={id}")
-    public String removeCustomer(@PathVariable String id){
+    public String removeCustomer(@PathVariable("id") String id){
         return customerService.removeCustomer(id);
     }
 

@@ -38,4 +38,15 @@ public class ProductService {
 
         return "Customer Added Successfully";
     }
+
+    public ProductDTO searchProduct(String id) {
+        Product product = productRepository.findById(id).orElse(null);
+
+        return new ProductDTO(
+                product.getProductId(),
+                product.getName(),
+                product.getPrice()
+        );
+    }
+
 }
