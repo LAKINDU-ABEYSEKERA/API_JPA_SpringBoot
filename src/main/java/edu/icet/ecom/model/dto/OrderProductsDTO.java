@@ -2,14 +2,13 @@ package edu.icet.ecom.model.dto;
 
 import lombok.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
-public class ProductDTO {
+public class OrderProductsDTO {
     private String productId;
-    private String name;
-    private int price;
     private int qty;
+    private double unitPrice;
 }

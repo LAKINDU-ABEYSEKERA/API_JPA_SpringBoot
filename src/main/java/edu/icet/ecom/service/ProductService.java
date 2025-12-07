@@ -29,8 +29,8 @@ public class ProductService {
         Product product = new Product(
                 String.valueOf(nextId),
                 productDTO.getName(),
-                productDTO.getPrice()
-
+                productDTO.getPrice(),
+                productDTO.getQty()
         );
 
         productRepository.save(product);
@@ -44,7 +44,8 @@ public class ProductService {
         return new ProductDTO(
                 product.getProductId(),
                 product.getName(),
-                product.getPrice()
+                product.getPrice(),
+                product.getQty()
         );
     }
 
