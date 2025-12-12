@@ -20,12 +20,12 @@ public class ProductController {
        return productService.addProduct(productDTO);
     }
 
-    @GetMapping("searchProduct={id}")
+    @GetMapping("/searchProduct={id}")
     public ProductDTO searchProduct(@PathVariable("id")String id){
         return productService.searchProduct(id);
     }
 
-    @PostMapping("updateProduct={id}")
+    @PostMapping("/updateProduct={id}")
     public String updateProduct(@RequestBody ProductDTO productDTO,@PathVariable("id")String id){
         return productService.updateProduct(productDTO,id);
     }
