@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-public class OrderDetail {
+public class OrderProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +19,8 @@ public class OrderDetail {
     private int quantity;
     private double price;
 
-    // --- THIS WAS MISSING ---
+
     @ManyToOne
-    @JoinColumn(name = "order_id") // This creates the Foreign Key column in the database
-    private Orders orders;         // This name matches the 'mappedBy' in Orders.java
+    @JoinColumn(name = "order_id")
+    private Orders orders;
 }
