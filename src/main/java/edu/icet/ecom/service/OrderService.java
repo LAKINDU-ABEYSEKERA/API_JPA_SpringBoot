@@ -3,7 +3,7 @@ package edu.icet.ecom.service;
 import edu.icet.ecom.model.dto.OrderDTO;
 import edu.icet.ecom.model.dto.OrderProductsDTO;
 import edu.icet.ecom.model.entity.Customer;
-import edu.icet.ecom.model.entity.OrderDetail;
+import edu.icet.ecom.model.entity.OrderProduct;
 import edu.icet.ecom.model.entity.Orders;
 import edu.icet.ecom.model.entity.Product;
 import edu.icet.ecom.repository.CustomerRepository;
@@ -59,7 +59,7 @@ public class OrderService {
             Product product = productRepository.findById(detailDTO.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found"));
 
-            OrderDetail orderDetails = new OrderDetail();
+            OrderProduct orderDetails = new OrderProduct();
 
             // Set simple fields
             orderDetails.setProductName(product.getName());

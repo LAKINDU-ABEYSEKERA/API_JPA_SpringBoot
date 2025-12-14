@@ -24,13 +24,14 @@ public class CustomerService {
             nextId++;
         }
 
-        customerRepository.save(
-                new Customer(
-                        String.valueOf(nextId),
-                        customerDTO.getName(),
-                        customerDTO.getAddress(),
-                        customerDTO.getContact()
-                ));
+        Customer customer = Customer.builder()
+                .customerId(String.valueOf(nextId))
+                .name(customerDTO.getName())
+                .contact(customerDTO.getContact())
+                .address(customerDTO.getAddress())
+                .build();
+
+        customerRepository.save(customer);
 
         return "Customer Added Successfully";
     }
