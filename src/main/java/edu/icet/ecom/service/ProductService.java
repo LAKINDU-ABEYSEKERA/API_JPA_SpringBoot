@@ -1,11 +1,15 @@
 package edu.icet.ecom.service;
 
 import edu.icet.ecom.model.dto.ProductDTO;
+import edu.icet.ecom.model.dto.ProductSalesDTO;
+import edu.icet.ecom.model.entity.OrderDetails;
 import edu.icet.ecom.model.entity.Product;
 import edu.icet.ecom.repository.ProductRepository;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,12 +30,12 @@ public class ProductService {
             nextId++;
         }
 
-        Product product = new Product(
-                String.valueOf(nextId),
-                productDTO.getName(),
-                productDTO.getPrice(),
-                productDTO.getQty()
-        );
+        Product product = Product.builder()
+                        .productId(String.valueOf(nextId))
+                        .name(productDTO.getName())
+                        .price(productDTO.getPrice())
+                        .qty(productDTO.getQty())
+                        .build();
 
         productRepository.save(product);
 
@@ -75,4 +79,28 @@ public class ProductService {
     public List<Product> getAll(){
         return productRepository.findAll();
     }
+
+    public List<ProductSalesDTO> getProductHistory(String productId){
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+
+        List<OrderDetails> orderDetailsArray = product.getOrderDetails();
+
+        List<ProductSalesDTO> productSalesDTOS = new ArrayList<>();
+
+        for (OrderDetails orderDetails : orderDetailsArray) {
+            productSalesDTOS.add(
+                    new ProductSalesDTO(
+                            orderDetails.getOrders().getOrderId(),
+                            orderDetails.getOrders().getOrderDate(),
+                            orderDetails.getPrice(),
+                            orderDetails.getQuantity()
+                    )
+            );
+
+        }
+
+        return productSalesDTOS;
+
+    }
+
 }

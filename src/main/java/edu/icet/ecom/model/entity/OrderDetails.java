@@ -9,13 +9,15 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-public class OrderProduct {
+public class OrderDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderDetailId;
 
-    private String productName;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
     private int quantity;
     private double price;
 

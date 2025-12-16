@@ -1,9 +1,9 @@
 package edu.icet.ecom.service;
 
 import edu.icet.ecom.model.dto.OrderDTO;
-import edu.icet.ecom.model.dto.OrderProductsDTO;
+import edu.icet.ecom.model.dto.OrderDetailsDTO;
 import edu.icet.ecom.model.entity.Customer;
-import edu.icet.ecom.model.entity.OrderProduct;
+import edu.icet.ecom.model.entity.OrderDetails;
 import edu.icet.ecom.model.entity.Orders;
 import edu.icet.ecom.model.entity.Product;
 import edu.icet.ecom.repository.CustomerRepository;
@@ -41,28 +41,30 @@ public class OrderService {
         // 1. Create and Save the Order Parent first
         String orderId = genOrderId();
         Orders orders = new Orders();
+
         orders.setOrderId(orderId);
         orders.setOrderDate(orderDTO.getLocalDate());
 
         // Fetch Customer
         Customer customer = customerRepository.findById(orderDTO.getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
+
         orders.setCustomer(customer);
 
         // Save Order to DB (so we have a valid Order entity to link to)
         orderRepository.save(orders);
 
         // 2. Loop through products and create OrderDetails
-        List<OrderProductsDTO> productList = orderDTO.getOrderProductsDTOS();
+        List<OrderDetailsDTO> productList = orderDTO.getOrderDetailsDTOS();
 
-        for (OrderProductsDTO detailDTO : productList) {
+        for (OrderDetailsDTO detailDTO : productList) {
             Product product = productRepository.findById(detailDTO.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found"));
 
-            OrderProduct orderDetails = new OrderProduct();
+            OrderDetails orderDetails = new OrderDetails();
 
             // Set simple fields
-            orderDetails.setProductName(product.getName());
+            orderDetails.setProduct(product);
             orderDetails.setQuantity(detailDTO.getQty());
             orderDetails.setPrice(detailDTO.getUnitPrice());
 

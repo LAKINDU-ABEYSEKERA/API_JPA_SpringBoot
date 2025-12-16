@@ -21,7 +21,7 @@ public class Orders {
     private Customer customer;
     private LocalDate orderDate;
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderProduct> orderDetailsList;
+    private List<OrderDetails> orderDetailsList;
 
 
 
