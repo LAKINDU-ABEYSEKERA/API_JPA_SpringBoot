@@ -1,10 +1,10 @@
 package edu.icet.ecom.repository;
 
-import edu.icet.ecom.model.entity.OrderProduct;
+import edu.icet.ecom.model.entity.OrderDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderDetailsRepository extends JpaRepository<OrderProduct, Long> {
+public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
 
 }

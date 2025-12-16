@@ -1,6 +1,7 @@
 package edu.icet.ecom.controller;
 
 import edu.icet.ecom.model.dto.ProductDTO;
+import edu.icet.ecom.model.dto.ProductSalesDTO;
 import edu.icet.ecom.model.entity.Product;
 import edu.icet.ecom.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,10 @@ public class ProductController {
     @GetMapping("/getAll")
     public List<Product> getAll(){
         return productService.getAll();
+    }
+
+    @GetMapping("/history={id}")
+    public List<ProductSalesDTO> getProductHistory(@PathVariable("id") String id){
+        return productService.getProductHistory(id);
     }
 }
