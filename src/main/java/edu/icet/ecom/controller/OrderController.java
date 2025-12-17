@@ -2,8 +2,11 @@ package edu.icet.ecom.controller;
 
 import edu.icet.ecom.model.dto.OrderDTO;
 import edu.icet.ecom.service.OrderService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/order")
@@ -16,5 +19,16 @@ public class OrderController {
     public String placeOrder(@RequestBody OrderDTO orderDTO){
         orderService.placeOrder(orderDTO);
         return "Order Placed Successfully";
+    }
+
+    @GetMapping("/searchOrder/{id}")
+    public OrderDTO searchOrder(@PathVariable("id") String id){
+        return orderService.searchOrder(id);
+    }
+
+    @GetMapping("/getAllOrders")
+    public List<OrderDTO> getAllOrders(){
+        return orderService.getAllOrders();
+
     }
 }
