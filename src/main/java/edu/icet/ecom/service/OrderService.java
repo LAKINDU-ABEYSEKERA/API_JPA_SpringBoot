@@ -13,7 +13,10 @@ import edu.icet.ecom.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -79,5 +82,80 @@ public class OrderService {
             product.setQty(newQty);
             productRepository.save(product);
         }
+    }
+
+    @GetMapping("/searchOrder/{id}")
+    public OrderDTO searchOrder(@PathVariable("id")String id) {
+
+        Orders order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found!.."));
+
+        List<OrderDetails> orderDetails = order.getOrderDetailsList();
+
+        List<OrderDetailsDTO> orderDetailsDTOs = new ArrayList<>();
+
+        for(OrderDetails od : orderDetails ){
+            orderDetailsDTOs.add(
+                    new OrderDetailsDTO(
+                            od.getOrderDetailId(),
+                            od.getProduct().getProductId(),
+                            od.getQuantity(),
+                            od.getPrice()
+                    )
+            );
+        }
+
+        double total = 0.00;
+        for (OrderDetails od : orderDetails){
+            total += (od.getQuantity() * od.getPrice());
+
+        }
+
+        return new OrderDTO(
+                order.getOrderId(),
+                order.getCustomer().getCustomerId(),
+                order.getOrderDate(),
+                total,
+                orderDetailsDTOs
+        );
+    }
+
+    public List<OrderDTO> getAllOrders() {
+        List<Orders> orderArray = orderRepository.findAll();
+
+        List<OrderDTO> orderDTOArray = new ArrayList<>();
+
+        for(Orders od : orderArray){
+
+            List<OrderDetails> orderDetail = od.getOrderDetailsList();
+
+            List<OrderDetailsDTO> orderDetailsDTOList = new ArrayList<>();
+
+            double total = 0;
+            for(OrderDetails detail : orderDetail){
+                total += (detail.getQuantity() * detail.getPrice());
+                orderDetailsDTOList.add(
+                        new OrderDetailsDTO(
+                                detail.getOrderDetailId(),
+                                detail.getProduct().getProductId(),
+                                detail.getQuantity(),
+                                detail.getPrice()
+                        )
+                );
+            }
+
+            orderDTOArray.add(
+                    new OrderDTO(
+                            od.getOrderId(),
+                            od.getCustomer().getCustomerId(),
+                            od.getOrderDate(),
+                            total,
+                            orderDetailsDTOList
+
+              )
+            );
+
+        }
+
+        return orderDTOArray;
     }
 }
