@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,9 +21,14 @@ public class Orders {
     @JoinColumn(name = "customer_id")
     private Customer customer;
     private LocalDate orderDate;
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetails> orderDetailsList;
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL , orphanRemoval = true)
+    private List<OrderDetails> orderDetailsList = new ArrayList<>();
 
+    public void addOrderDetail(OrderDetails detail){
+        orderDetailsList.add(detail);
+        detail.setOrders(this);
+
+    }
 
 
 }
