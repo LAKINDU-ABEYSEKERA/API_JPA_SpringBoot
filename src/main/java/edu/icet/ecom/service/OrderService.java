@@ -45,47 +45,48 @@ public class OrderService {
         String orderId = genOrderId();
         Orders orders = new Orders();
 
+
+
         orders.setOrderId(orderId);
         orders.setOrderDate(orderDTO.getLocalDate());
 
-        // Fetch Customer
+        // Took Customer into a variable
         Customer customer = customerRepository.findById(orderDTO.getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         orders.setCustomer(customer);
 
-        // Save Order to DB (so we have a valid Order entity to link to)
-        orderRepository.save(orders);
 
-        // 2. Loop through products and create OrderDetails
+
+
+        // Loop through products and create OrderDetails
         List<OrderDetailsDTO> productList = orderDTO.getOrderDetailsDTOS();
 
         for (OrderDetailsDTO detailDTO : productList) {
             Product product = productRepository.findById(detailDTO.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found"));
 
-            OrderDetails orderDetails = new OrderDetails();
+          OrderDetails orderDetails = new OrderDetails();
 
             // Set simple fields
             orderDetails.setProduct(product);
             orderDetails.setQuantity(detailDTO.getQty());
             orderDetails.setPrice(detailDTO.getUnitPrice());
 
-            // --- CRITICAL STEP: LINK THE CHILD TO THE PARENT ---
-            orderDetails.setOrders(orders);
+            // Linking the Child To The Parent
+            orders.addOrderDetail(orderDetails);
 
-            // Save the detail
-            orderDetailsRepository.save(orderDetails);
 
             // 3. Update Product Quantity
             int newQty = product.getQty() - detailDTO.getQty();
             product.setQty(newQty);
             productRepository.save(product);
         }
+
+        orderRepository.save(orders);
     }
 
-    @GetMapping("/searchOrder/{id}")
-    public OrderDTO searchOrder(@PathVariable("id")String id) {
+    public OrderDTO searchOrder(String id) {
 
         Orders order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found!.."));
 
@@ -93,6 +94,7 @@ public class OrderService {
 
         List<OrderDetailsDTO> orderDetailsDTOs = new ArrayList<>();
 
+        double total = 0.00;
         for(OrderDetails od : orderDetails ){
             orderDetailsDTOs.add(
                     new OrderDetailsDTO(
@@ -102,13 +104,10 @@ public class OrderService {
                             od.getPrice()
                     )
             );
-        }
 
-        double total = 0.00;
-        for (OrderDetails od : orderDetails){
             total += (od.getQuantity() * od.getPrice());
-
         }
+
 
         return new OrderDTO(
                 order.getOrderId(),

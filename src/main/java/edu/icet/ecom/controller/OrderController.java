@@ -2,6 +2,7 @@ package edu.icet.ecom.controller;
 
 import edu.icet.ecom.model.dto.OrderDTO;
 import edu.icet.ecom.service.OrderService;
+import edu.icet.ecom.util.OrderIdUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,9 @@ public class OrderController {
 
     @GetMapping("/searchOrder/{id}")
     public OrderDTO searchOrder(@PathVariable("id") String id){
-        return orderService.searchOrder(id);
+        String formattedId = OrderIdUtil.formatId(id);
+
+        return orderService.searchOrder(formattedId);
     }
 
     @GetMapping("/getAllOrders")
