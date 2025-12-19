@@ -5,6 +5,7 @@ import edu.icet.ecom.service.OrderService;
 import edu.icet.ecom.util.OrderIdUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +34,10 @@ public class OrderController {
     public List<OrderDTO> getAllOrders(){
         return orderService.getAllOrders();
 
+    }
+
+    @PutMapping("/updateOrder")
+    public OrderDTO updateOrder(OrderDTO orderDTO){
+        return orderService.updateOrder(orderDTO);
     }
 }
