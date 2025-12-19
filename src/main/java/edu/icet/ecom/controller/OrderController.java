@@ -34,4 +34,9 @@ public class OrderController {
         return orderService.getAllOrders();
 
     }
+
+    @PutMapping("/updateOrder")
+    public String updateOrder(OrderDTO orderDTO){
+        return orderService.updateOrder(orderDTO);
+    }
 }

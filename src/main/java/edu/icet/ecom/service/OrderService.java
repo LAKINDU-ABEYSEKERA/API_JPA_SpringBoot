@@ -157,4 +157,25 @@ public class OrderService {
 
         return orderDTOArray;
     }
+
+    public OrderDTO updateOrder(OrderDTO orderDTO) {
+        Orders order = orderRepository.findById(orderDTO.getOrderId()).orElseThrow(
+                () -> new RuntimeException("Order not Found")
+        );
+
+        Customer customer = customerRepository.findById(orderDTO.getCustomerId()).orElseThrow(
+                () -> new RuntimeException("Customer not Found")
+        );
+
+        order.setCustomer(customer);
+        order.setOrderDate(orderDTO.getLocalDate());
+
+        return new OrderDTO(
+                order.getOrderId(),
+                order.getCustomer().getCustomerId(),
+                order.getOrderDate(),
+                0.00,
+                null
+        );
+    }
 }
