@@ -37,7 +37,7 @@ public class OrderController {
     }
 
     @PutMapping("/updateOrder")
-    public OrderDTO updateOrder(OrderDTO orderDTO){
+    public OrderDTO updateOrder(@RequestBody OrderDTO orderDTO){
         return orderService.updateOrder(orderDTO);
     }
 }

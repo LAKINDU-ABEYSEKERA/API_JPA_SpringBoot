@@ -170,12 +170,35 @@ public class OrderService {
         order.setCustomer(customer);
         order.setOrderDate(orderDTO.getLocalDate());
 
+        order.getOrderDetailsList().clear();
+
+
+        List<OrderDetailsDTO> orderDetailsDTOList = orderDTO.getOrderDetailsDTOS();
+
+        double total = 0;
+
+        for (OrderDetailsDTO od : orderDetailsDTOList) {
+
+            Product product = productRepository.findById(od.getProductId()).orElseThrow(
+                    () -> new RuntimeException("Product not Found")
+            );
+
+            OrderDetails orderDetail = new OrderDetails();
+
+            orderDetail.setProduct(product);
+            orderDetail.setPrice(od.getUnitPrice());
+            orderDetail.setQuantity(od.getQty());
+
+            order.addOrderDetail(orderDetail);
+
+            total += od.getQty() * od.getUnitPrice();
+        }
         return new OrderDTO(
                 order.getOrderId(),
                 order.getCustomer().getCustomerId(),
                 order.getOrderDate(),
-                0.00,
-                null
+                total,
+                orderDetailsDTOList
         );
     }
 }

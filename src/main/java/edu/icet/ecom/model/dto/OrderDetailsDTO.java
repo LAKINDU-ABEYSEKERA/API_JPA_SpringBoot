@@ -1,5 +1,6 @@
 package edu.icet.ecom.model.dto;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.*;
 
 @Getter
@@ -10,6 +11,6 @@ import lombok.*;
 public class OrderDetailsDTO {
     private Long orderDetailId;
     private String productId;
-    private int qty;
+    private Integer qty;
     private double unitPrice;
 }
