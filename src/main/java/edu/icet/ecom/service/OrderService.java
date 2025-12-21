@@ -201,4 +201,11 @@ public class OrderService {
                 orderDetailsDTOList
         );
     }
+
+    public void deleteOrder(String orderId) {
+
+        Orders order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        orderRepository.delete(order);
 }
