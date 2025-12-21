@@ -6,6 +6,7 @@ import edu.icet.ecom.util.OrderIdUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,5 +40,11 @@ public class OrderController {
     @PutMapping("/updateOrder")
     public OrderDTO updateOrder(@RequestBody OrderDTO orderDTO){
         return orderService.updateOrder(orderDTO);
+    }
+
+    @DeleteMapping("/{orderId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteOrder(@PathVariable String orderId) {
+        orderService.deleteOrder(orderId);
     }
 }
