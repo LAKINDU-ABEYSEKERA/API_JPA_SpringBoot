@@ -42,9 +42,16 @@ public class OrderController {
         return orderService.updateOrder(orderDTO);
     }
 
-    @DeleteMapping("/{orderId}")
+    @DeleteMapping("/deleteOrder/{orderId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOrder(@PathVariable String orderId) {
         orderService.deleteOrder(orderId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/deleteOrderId/{id}")
+    public void deleteOrderDetail(@PathVariable("id")String id){
+        orderService.deleteOrderDetail(id);
+
     }
 }
