@@ -208,4 +208,18 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
         orderRepository.delete(order);
+    }
+
+    public void deleteOrderDetail(String id) {
+        OrderDetails orderDetail = orderDetailsRepository.findById(Long.valueOf(id)).orElseThrow(
+                () -> new RuntimeException("Order Detail not Found")
+        );
+
+        Orders orders = orderDetail.getOrders();
+
+        orders.getOrderDetailsList().remove(orderDetail);
+
+       // orderDetailsRepository.delete(orderDetail);
+
+    }
 }
